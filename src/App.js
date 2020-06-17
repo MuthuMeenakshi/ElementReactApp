@@ -1,26 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
 
-export default App;
+  constructor(props){
+    super(props)
+    this.state = {username:'default-username', password:'default-password'}
+  }
+
+  componentDidMount() {
+    this.nv.addEventListener("login", this.handleNvEnter);
+  }
+
+  componentWillUnmount() {
+    this.nv.removeEventListener("login", this.handleNvEnter);
+  }
+
+  handleNvEnter = (event) => {
+    this.setState({ username: event.detail.username, password: event.detail.password })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React + Angular Component Integration Demo</h1>
+        </header>
+
+          <contact-form ref={elem => this.nv = elem} username={this.state.username} password={this.state.password}></contact-form>
+          <br/>
+          <h3>React.js - Output</h3>
+          <div>
+            User Name: {this.state.username}
+          </div>
+          <div>
+            password: {this.state.password}
+          </div>
+      </div>
+        );
+      }
+    }
+    
+    export default App;
